@@ -16,6 +16,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Ruben Bermudez
@@ -43,19 +44,35 @@ public class KurupiHandlers extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        try {
-            if (update.hasInlineQuery()) {
-                handleIncomingInlineQuery(update.getInlineQuery());
-            } else if (update.hasMessage() && update.getMessage().isUserMessage()) {
-                try {
-                    sendMessage(getHelpMessage(update.getMessage()));
-                } catch (TelegramApiException e) {
-                    BotLogger.error(LOGTAG, e);
-                }
-            }
-        } catch (Exception e) {
-            BotLogger.error(LOGTAG, e);
-        }
+        //check if the update has a message
+        if(update.hasMessage()){
+                Message message = update.getMessage();
+                
+                //check if the message has text. it could also  contain for example a location ( message.hasLocation() )
+                if(message.hasText()){
+                        
+                        //create a object that contains the information to send back the message
+                        SendMessage sendMessageRequest = new SendMessage();
+                        sendMessageRequest.setChatId(message.getChatId().toString()); //who should get the message? the sender from which we got the message...
+                        sendMessageRequest.setText(randomWord());
+                        try {
+                                sendMessage(sendMessageRequest); //at the end, so some magic and send the message ;)
+                        } catch (TelegramApiException e) {
+                                //do some error handling
+                        }//end catch()
+                }//end if()
+        }//end  if()
+    }
+    
+    public String randomWord(){
+    	String[] words = { "op, ha upei","oh waus que interesante", "no tenes diemil kp","contale a menchi", "okei", "por diemil no me vas a llevar", "jaijue bollo" };
+        //note a single Random object is reused here
+//        Random randomGenerator = new Random();
+//        for (int idx = 1; idx <= 10; ++idx){
+//          int randomInt = randomGenerator.nextInt(words.length);
+//        }
+        String word = words[(int) (Math.random() * words.length)];
+        return word;
     }
 
     @Override
