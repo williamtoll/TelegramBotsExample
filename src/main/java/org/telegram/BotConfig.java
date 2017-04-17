@@ -24,10 +24,13 @@ public class BotConfig {
 
     public static final String RAE_TOKEN = "<token>";
     public static final String RAE_USER = "raebot";
-
+    
     public static final String WEBHOOK_TOKEN = "<token>";
     public static final String WEBHOOK_USER = "webhooksamplebot";
 
     public static final String COMMANDS_TOKEN = "<token>";
     public static final String COMMANDS_USER = "MyCommandsBot";
+    
+    public static final String KURUPI_TOKEN = "127829303:AAFTJK8xg_vDAkBazMJ-1-bv4FTvF4DaJfI";
+    public static final String KURUPI_USER = "KurupiBot";
 }
